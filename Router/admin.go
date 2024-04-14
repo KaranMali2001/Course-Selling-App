@@ -41,6 +41,7 @@ func adminsignup(c echo.Context) error {
 	token:=jwt.New(jwt.SigningMethodHS256)
 	claims:= token.Claims.(jwt.MapClaims)
 	claims["username"] = admin.Username
+	// claims["role"] = "admin" // Assuming "admin" is the admin role and add field in admin struct 
 	signToken ,err:= token.SignedString([]byte(Middleware.JWT_SECRAT))
 	if err!=nil{
 		log.Println(err)
