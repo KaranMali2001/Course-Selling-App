@@ -3,6 +3,7 @@ module mongo
 go 1.22.1
 
 require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/labstack/echo/v4 v4.11.4
 	go.mongodb.org/mongo-driver v1.14.0
 )
