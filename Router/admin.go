@@ -8,6 +8,7 @@ import (
 	"mongo/Middleware"
 	"net/http"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -37,7 +38,15 @@ func adminsignup(c echo.Context) error {
 		log.Fatal(err)
 		return c.String(http.StatusInternalServerError, "internal server err")
 	}
-	return c.String(http.StatusOK, "admin account created sucessfully ")
+	token:=jwt.New(jwt.SigningMethodHS256)
+	claims:= token.Claims.(jwt.MapClaims)
+	claims["username"] = admin.Username
+	signToken ,err:= token.SignedString([]byte(Middleware.JWT_SECRAT))
+	if err!=nil{
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError,"internal server erro")
+	}
+	return c.JSON(http.StatusOK, signToken)
 
 }
 func createcourse(c echo.Context) error {

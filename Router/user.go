@@ -8,6 +8,7 @@ import (
 	"mongo/Middleware"
 	"net/http"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -19,7 +20,7 @@ func UserRoute(e *echo.Echo) {
 	e.GET("/user/course", getcourse) //fucntion is directly called from admin.go
 	e.GET("/user/course/:id", coursePurchase, Middleware.UserMiddleware)
 	e.POST("/user/usersignup", userSignUp)
-	e.GET("/user/course", getPurchasedCourse, Middleware.UserMiddleware)
+	e.GET("/user/PurchasedCourse", getPurchasedCourse, Middleware.UserMiddleware)
 	/*   e.GET("/user/middleware",func(c echo.Context) error {
 		return c.String(http.StatusOK,"middlware working correctly")
 	  },Middleware.UserMiddleware)
@@ -38,8 +39,15 @@ func userSignUp(c echo.Context) error {
 		log.Fatal(err)
 		return c.String(http.StatusInternalServerError, "internal server error")
 	}
-
-	return c.JSON(http.StatusOK, "user created sucessfully")
+	token:= jwt.New(jwt.SigningMethodHS256)
+	claims :=token.Claims.(jwt.MapClaims)
+    claims["username"]=user.Username
+	signToken,err:= token.SignedString([]byte(Middleware.JWT_SECRAT))
+    if err!=nil{
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError,"internal sever error")
+	}
+	return c.JSON(http.StatusOK, signToken)
 }
 func coursePurchase(c echo.Context) error {
 	courseId := c.Param("id")

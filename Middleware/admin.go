@@ -66,11 +66,8 @@ func AdminMiddleware(next echo.HandlerFunc)echo.HandlerFunc{
 		if token == "" {
 			return c.JSON(http.StatusUnauthorized, "token is not valid")
 		}
-  		if !strings.HasPrefix(token, "Bearer "){
-         		return c.String(http.StatusBadRequest,"missing bearer in header")
-
-		}
-		tokenString := strings.TrimPrefix(token,"bearer")
+  		
+		tokenString := strings.TrimPrefix(token,"bearer ")
 		tokenValidation,err:= jwt.Parse(tokenString,func(t *jwt.Token) (interface{}, error) {
 			return []byte(JWT_SECRAT),nil
 		})
