@@ -70,7 +70,3 @@ This is a backend-only project for a course purchasing website implemented in Go
 
 - Authentication is required for creating courses and purchasing courses.
 - Include a JWT token in the `Authorization` header with the value `Bearer <your_token>`.
-
----
-
-Feel free to further customize this template according to your project's specific needs and requirements.
