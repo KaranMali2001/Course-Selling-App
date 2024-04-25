@@ -1,10 +1,10 @@
 package main
 
 import (
+	
 	"mongo/Router"
 	"net/http"
-	
-	
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,8 +17,9 @@ func main() {
 	e := echo.New()
 	e.HideBanner = true
 	e.GET("/", greating)
+	
 	Router.AdminRoute(e)
 	Router.UserRoute(e)
-	e.Start(":8080")
+	e.Start(":8000")
 	
 }
