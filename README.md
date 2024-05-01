@@ -29,7 +29,7 @@ This is a backend-only project for a course purchasing website implemented in Go
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your/repository.git
+   git clone https://github.com/KaranMali2001/Course-Selling-App
    ```
 
 2. Install dependencies:
